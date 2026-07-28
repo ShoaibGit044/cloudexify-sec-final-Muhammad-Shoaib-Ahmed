@@ -2,8 +2,6 @@
 
 **CloudExify Cybersecurity Internship 2026 — Month 1, Project 1**
 
-> Type: Security Assessment Lab | Difficulty: Intermediate | Tools: Kali Linux, Nmap, Wireshark
-
 ---
 
 ## 👤 Author
