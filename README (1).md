@@ -138,14 +138,18 @@ Result: 23 open TCP ports identified, including FTP (21), SSH (22), Telnet (23),
 nmap -sV -sC -p- 192.168.56.101 -oN enumeration.txt
 ```
 
-![Enumeration scan output showing service versions](screenshots/08-enumeration-scan.png)
+![Enumeration scan output showing service versions](screenshots/08a-enumeration-scan.png)
+![Enumeration scan output showing service versions](screenshots/08b-enumeration-scan.png)
+![Enumeration scan output showing service versions](screenshots/08c-enumeration-scan.png)
 
 ### Aggressive Scan (OS + version + scripts + traceroute)
 ```bash
 nmap -A 192.168.56.101
 ```
 
-![Aggressive scan output](screenshots/09-aggressive-scan.png)
+![Aggressive scan output](screenshots/09a-aggressive-scan.png)
+![Aggressive scan output](screenshots/09b-aggressive-scan.png)
+![Aggressive scan output](screenshots/09c-aggressive-scan.png)
 
 ### Enumeration Findings
 
@@ -187,7 +191,18 @@ nmap --script smb-enum-shares -p 139,445 192.168.56.101
 nmap --script vuln -p- 192.168.56.101 -oN vulnerability_scan.txt
 ```
 
-![Vulnerability scan output](screenshots/12-vuln-scan.png)
+![Vulnerability scan output](screenshots/12a-vuln-scan.png)
+![Vulnerability scan output](screenshots/12b-vuln-scan.png)
+![Vulnerability scan output](screenshots/12c-vuln-scan.png)
+![Vulnerability scan output](screenshots/12d-vuln-scan.png)
+![Vulnerability scan output](screenshots/12e-vuln-scan.png)
+![Vulnerability scan output](screenshots/12f-vuln-scan.png)
+![Vulnerability scan output](screenshots/12g-vuln-scan.png)
+![Vulnerability scan output](screenshots/12h-vuln-scan.png)
+![Vulnerability scan output](screenshots/12i-vuln-scan.png)
+![Vulnerability scan output](screenshots/12j-vuln-scan.png)
+![Vulnerability scan output](screenshots/12k-vuln-scan.png)
+
 
 ### Manual Cross-Referencing
 ```bash
@@ -197,7 +212,8 @@ searchsploit samba 3.0
 searchsploit apache 2.2.8
 ```
 
-![searchsploit results for identified services](screenshots/13-searchsploit.png)
+![searchsploit results for identified services](screenshots/13a-searchsploit.png)
+![searchsploit results for identified services](screenshots/13b-searchsploit.png)
 
 ### Vulnerability Summary
 
@@ -225,7 +241,10 @@ searchsploit apache 2.2.8
 sudo wireshark
 ```
 
-![Wireshark capturing traffic on eth0](screenshots/14-wireshark-capture.png)
+![Wireshark capturing traffic on eth0](screenshots/14a-wireshark-capture.png)
+![Wireshark capturing traffic on eth0](screenshots/14b-wireshark-capture.png)
+![Wireshark capturing traffic on eth0](screenshots/14c-wireshark-capture.png)
+![Wireshark capturing traffic on eth0](screenshots/14d-wireshark-capture.png)
 
 ### Filters Applied
 
@@ -335,21 +354,37 @@ cloudexify-sec-p1-shoaibahmed/
     ├── 05-ping-success.png
     ├── 06-host-discovery.png
     ├── 07-basic-scan.png
-    ├── 08-enumeration-scan.png
-    ├── 09-aggressive-scan.png
+    ├── 08a-enumeration-scan.
+    ├── 08b-enumeration-scan.
+    ├── 08c-enumeration-scan.
+    ├── 09a-aggressive-scan.png
+    ├── 09b-aggressive-scan.png
+    ├── 09c-aggressive-scan.png
     ├── 10-web-enumeration.png
     ├── 11-smb-enum.png
-    ├── 12-vuln-scan.png
-    ├── 13-searchsploit.png
-    ├── 14-wireshark-capture.png
+    ├── 12a-vuln-scan.png
+    ├── 12b-vuln-scan.png
+    ├── 12c-vuln-scan.png
+    ├── 12d-vuln-scan.png
+    ├── 12e-vuln-scan.png
+    ├── 12f-vuln-scan.png
+    ├── 12g-vuln-scan.png
+    ├── 12h-vuln-scan.png
+    ├── 12i-vuln-scan.png
+    ├── 12j-vuln-scan.png
+    ├── 12k-vuln-scan.png
+    ├── 13a-searchsploit.png
+    ├── 13b-searchsploit.png
+    ├── 14a-wireshark-capture.png
+    ├── 14b-wireshark-capture.png
+    ├── 14c-wireshark-capture.png
+    ├── 14d-wireshark-capture.png
     ├── 15-wireshark-ftp-filter.png
     ├── 16-wireshark-syn-filter.png
     ├── 17-wireshark-ip-filter.png
     ├── 18-msfconsole-start.png
     ├── 19-exploit-success.png
     ├── 20-root-confirmed.png
-    └── 21-troubleshooting-example.png
-```
 
 ---
 
