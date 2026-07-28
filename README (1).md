@@ -354,8 +354,8 @@ cloudexify-sec-p1-shoaibahmed/
     ├── 05-ping-success.png
     ├── 06-host-discovery.png
     ├── 07-basic-scan.png
-    ├── 08a-enumeration-scan.
-    ├── 08b-enumeration-scan.
+    ├── a08-enumeration-scan.
+    ├── b08-enumeration-scan.
     ├── 08c-enumeration-scan.
     ├── 09a-aggressive-scan.png
     ├── 09b-aggressive-scan.png
