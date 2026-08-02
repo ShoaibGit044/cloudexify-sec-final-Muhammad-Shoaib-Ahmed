@@ -1,7 +1,6 @@
 # Network Penetration Testing Lab
 
 **CloudExify Cybersecurity Internship 2026 — Month 1, Project 1**
-
 ---
 
 ## 👤 Author
@@ -386,14 +385,21 @@ cloudexify-sec-p1-shoaibahmed/
     ├── 19-exploit-success.png
     ├── 20-root-confirmed.png
 
----
 
 *Project completed as part of the CloudExify Cybersecurity Internship Program 2026 — Month 1, Project 1.*
+```
+Project number 2
+Cryptography & Password Security
+CloudExify Cybersecurity Internship 2026
 
+Completed by:
+Muhammad Shoaib Ahmed
+FA24-BCS-044 , Section BCS-4A
+BS Computer Science, COMSATS University Islamabad (Wah Campus)
 
-# Network Penetration Testing Lab
+---
 
-**CloudExify Cybersecurity Internship 2026 — Month 1, Project 1**
+# Cryptography & Password Security — Month 1 Project 2
 
 **CloudExify Cybersecurity Internship 2026**
 Muhammad Shoaib Ahmed — FA24-BCS-044 — Section BCS-4A
@@ -431,9 +437,7 @@ Muhammad Shoaib Ahmed — FA24-BCS-044 — Section BCS-4A
 | `test_secure_auth.py` | Automated tests covering the full Testing Checklist |
 | `requirements.txt` | All libraries needed to run the project |
 | `.gitignore` | Excludes the virtual environment, cache files, and local data from GitHub |
-
 ---
-
 ## Environment Setup
 
 This project runs inside an isolated Python **virtual environment (venv)**,
@@ -735,3 +739,4 @@ screenshots/
 ├── p2-22-https-login-success.png
 └── p2-23-all-tests-passing.png
 ```
+
