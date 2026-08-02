@@ -389,3 +389,349 @@ cloudexify-sec-p1-shoaibahmed/
 ---
 
 *Project completed as part of the CloudExify Cybersecurity Internship Program 2026 — Month 1, Project 1.*
+
+
+# Network Penetration Testing Lab
+
+**CloudExify Cybersecurity Internship 2026 — Month 1, Project 1**
+
+**CloudExify Cybersecurity Internship 2026**
+Muhammad Shoaib Ahmed — FA24-BCS-044 — Section BCS-4A
+
+---
+
+## 📋 Table of Contents
+- [Files](#files)
+- [Environment Setup](#environment-setup)
+- [1. Password Hashing & Registration (secure_auth.py)](#1-password-hashing--registration-secure_authpy)
+- [2. Multi-Factor Authentication](#2-multi-factor-authentication)
+- [3. Rate Limiting](#3-rate-limiting)
+- [4. Symmetric Encryption (encryption_examples.py)](#4-symmetric-encryption-encryption_examplespy)
+- [5. Asymmetric Encryption / RSA (rsa_example.py)](#5-asymmetric-encryption--rsa-rsa_examplepy)
+- [6. Hash Comparison (hash_comparison.py)](#6-hash-comparison-hash_comparisonpy)
+- [7. GUI Application (gui_app.py)](#7-gui-application-gui_apppy)
+- [8. HTTPS Web Demo (https_demo.py)](#8-https-web-demo-https_demopy)
+- [9. Automated Tests (test_secure_auth.py)](#9-automated-tests-test_secure_authpy)
+- [Best Practices Checklist](#best-practices-checklist--status)
+- [Testing Checklist](#testing-checklist--status)
+- [Key Findings](#key-findings)
+
+---
+
+## Files
+| File | Purpose |
+|---|---|
+| `secure_auth.py` | Core logic: registration, password hashing, rate limiting, MFA hooks |
+| `mfa.py` | TOTP multi-factor authentication (like Google Authenticator) |
+| `encryption_examples.py` | Symmetric encryption/decryption demo using Fernet (AES-based) |
+| `hash_comparison.py` | Proves why plain SHA-256 is unsafe for passwords vs bcrypt |
+| `rsa_example.py` | Asymmetric (public/private key) encryption demo using RSA |
+| `https_demo.py` | Flask web server running over HTTPS with a self-signed cert |
+| `gui_app.py` | Tkinter GUI for register / login / MFA verification |
+| `test_secure_auth.py` | Automated tests covering the full Testing Checklist |
+| `requirements.txt` | All libraries needed to run the project |
+| `.gitignore` | Excludes the virtual environment, cache files, and local data from GitHub |
+
+---
+
+## Environment Setup
+
+This project runs inside an isolated Python **virtual environment (venv)**,
+so its dependencies (bcrypt, cryptography, pyotp, flask, pyopenssl) don't
+conflict with anything else installed on the machine.
+
+**Windows:**
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+
+pip install -r requirements.txt
+```
+
+![Windows folder view showing .venv structure: Include, Lib, Scripts, pyvenv.cfg](screenshots/p2-00a-venv-folder-structure.png)
+
+**macOS/Linux:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+Once activated, all installed packages live inside `.venv/Lib/site-packages`
+(Windows) or `.venv/lib/pythonX.X/site-packages` (macOS/Linux) — completely
+separate from any system-wide Python installation.
+
+![site-packages folder showing bcrypt, cryptography, flask, pyotp, pyopenssl, etc. installed](screenshots/p2-00b-installed-packages.png)
+
+![Terminal showing requirements installed successfully inside the activated venv](screenshots/p2-01-pip-install.png)
+
+**Running scripts (with the venv activated):**
+```bash
+python secure_auth.py           # command-line demo
+python test_secure_auth.py      # runs all 13 checklist tests
+python gui_app.py               # GUI version (register/login/MFA)
+python https_demo.py            # then open https://127.0.0.1:5000
+```
+
+**Note:** the `.venv/` folder, `__pycache__/`, and the local `users.json` /
+`login_attempts.json` data files are excluded from GitHub via `.gitignore`
+— the venv is machine-specific and shouldn't be pushed, and the data files
+contain real password hashes and MFA secrets generated from local testing.
+
+![__pycache__ folder with compiled .pyc files, confirming scripts ran successfully](screenshots/p2-00c-pycache-proof.png)
+
+---
+
+## 1. Password Hashing & Registration (`secure_auth.py`)
+
+**Goal:** register a user with a strong password, confirm it's stored as a
+bcrypt hash (never plaintext), and confirm weak passwords get rejected.
+
+```bash
+python secure_auth.py
+```
+
+![Terminal output: registration successful, MFA secret printed](screenshots/p2-02-register-success.png)
+
+![Terminal output: weak password rejected with reason](screenshots/p2-03-weak-password-rejected.png)
+
+### Stored data proof
+```bash
+cat users.json
+```
+
+![users.json showing bcrypt hash and mfa_secret, never plaintext password](screenshots/p2-04-users-json.png)
+
+---
+
+## 2. Multi-Factor Authentication
+
+**Goal:** show the second login factor (TOTP code) working end to end.
+
+Secret added to an authenticator app (Google Authenticator / WinOTP):
+
+![Authenticator app showing the 6-digit code for this account](screenshots/p2-05-authenticator-app-code.png)
+
+Login using that code:
+
+![Terminal: password correct, MFA code entered, login successful](screenshots/p2-06-mfa-login-success.png)
+
+---
+
+## 3. Rate Limiting
+
+**Goal:** show the account locking out after repeated failed attempts.
+
+```bash
+# secure_auth.py demo tries 4 wrong passwords in a row
+```
+
+![Terminal showing 3 failed attempts then "Account locked" message](screenshots/p2-07-rate-limit-lockout.png)
+
+---
+
+## 4. Symmetric Encryption (`encryption_examples.py`)
+
+**Goal:** show data encrypted and decrypted with a Fernet key, and show
+decryption failing with the wrong key.
+
+```bash
+python encryption_examples.py
+```
+
+![Terminal: key generated, message encrypted, decrypted back to original](screenshots/p2-08-fernet-encrypt-decrypt.png)
+
+![Terminal: wrong key raises InvalidToken exception](screenshots/p2-09-fernet-wrong-key-fails.png)
+
+---
+
+## 5. Asymmetric Encryption / RSA (`rsa_example.py`)
+
+**Goal:** show public-key encryption and private-key decryption working,
+and show decryption failing with a mismatched private key.
+
+```bash
+python rsa_example.py
+```
+
+![Terminal: RSA key pair generated, message encrypted with public key](screenshots/p2-10-rsa-keypair-encrypt.png)
+
+![Terminal: message decrypted successfully with matching private key](screenshots/p2-11-rsa-decrypt-success.png)
+
+![Terminal: decryption fails with an unrelated private key](screenshots/p2-12-rsa-wrong-key-fails.png)
+
+---
+
+## 6. Hash Comparison (`hash_comparison.py`)
+
+**Goal:** prove why bcrypt beats plain SHA-256 for password storage.
+
+```bash
+python hash_comparison.py
+```
+
+![Terminal: SHA-256 produces identical hash both times (rainbow-table risk)](screenshots/p2-13-sha256-same-hash.png)
+
+![Terminal: bcrypt produces a different hash both times, still verifies correctly](screenshots/p2-14-bcrypt-different-hash.png)
+
+---
+
+## 7. GUI Application (`gui_app.py`)
+
+**Goal:** show the same system through a desktop interface.
+
+```bash
+python gui_app.py
+```
+
+![GUI: main window with username/password fields and buttons](screenshots/p2-15-gui-main-window.png)
+
+![GUI: MFA secret dialog with Copy to Clipboard button after registering](screenshots/p2-16-gui-mfa-secret-dialog.png)
+
+![GUI: MFA code entry box after password step succeeds](screenshots/p2-17-gui-mfa-entry.png)
+
+![GUI: success popup after MFA verified](screenshots/p2-18-gui-login-success.png)
+
+---
+
+## 8. HTTPS Web Demo (`https_demo.py`)
+
+**Goal:** show the login flow running over an encrypted HTTPS connection
+in an actual browser, including the self-signed certificate warning.
+
+```bash
+python https_demo.py
+```
+
+![Browser: "Not secure" / self-signed cert warning on https://127.0.0.1:5000](screenshots/p2-19-https-cert-warning.png)
+
+![Browser: login form served over HTTPS](screenshots/p2-20-https-login-form.png)
+
+![Browser: MFA code form after password step succeeds](screenshots/p2-21-https-mfa-form.png)
+
+![Browser: final success page after MFA verified](screenshots/p2-22-https-login-success.png)
+
+---
+
+## 9. Automated Tests (`test_secure_auth.py`)
+
+**Goal:** prove every item in the Testing Checklist actually passes, not
+just that it was implemented.
+
+```bash
+python test_secure_auth.py
+```
+
+![Terminal: all 13 tests showing PASS, final "13 passed, 0 failed"](screenshots/p2-23-all-tests-passing.png)
+
+---
+
+## Best Practices Checklist — status
+| Practice | Where it's handled |
+|---|---|
+| Hash all passwords (bcrypt) | `secure_auth.register()` — `bcrypt.hashpw()` |
+| Add unique salt per user | `bcrypt.gensalt()` generates a new random salt every call |
+| Add pepper (server-wide secret) | `secure_auth.py` — `PEPPER` mixed into every password before hashing, stored as an environment variable, separate from the database |
+| Use HTTPS everywhere | `https_demo.py` — Flask served with `ssl_context="adhoc"` |
+| Never log passwords | Raw password is only ever passed into `bcrypt` functions, never printed/written to any file |
+| Strong password requirements | `is_strong_password()` — min 12 chars, 1 number, 1 symbol |
+| Rate-limit login attempts | `is_locked_out()` / `record_failed_attempt()` — 3 tries, 60s lockout |
+| Multi-factor authentication | `mfa.py` — TOTP secret per user, verified on login step 2 |
+| Regularly update libraries | `requirements.txt` — run `pip install -r requirements.txt --upgrade` periodically |
+
+## Testing Checklist — status
+All 13 checks in `test_secure_auth.py` pass:
+- Generate bcrypt hash → different hash each time ✅
+- Verify correct password ✅
+- Reject wrong password ✅
+- Encrypt and decrypt data → data recoverable with key ✅
+- Encryption with wrong key → raises exception ✅
+- User registration system → users saved securely (hash only, never plaintext) ✅
+- User login verification → password + MFA both required ✅
+- Rainbow table resistance → salt makes every hash unique ✅
+- Weak password rejected ✅
+- Account lockout after repeated failed attempts ✅
+
+## RSA public-key cryptography
+`rsa_example.py` demonstrates asymmetric encryption, separate from the
+symmetric encryption in `encryption_examples.py`:
+- **Symmetric (Fernet)**: one key encrypts AND decrypts. Fast, but both
+  sides need the same secret key beforehand — a problem if they've never met.
+- **Asymmetric (RSA)**: two keys. A public key (safe to share with anyone)
+  encrypts; only the matching private key (kept secret) can decrypt. This
+  solves the "how do we agree on a secret over an insecure channel" problem
+  and is the same idea an HTTPS/TLS handshake uses before your browser and
+  a website settle on a fast symmetric key for the rest of the session.
+
+## Man-in-the-middle (MITM) attacks and key management
+A MITM attack is when someone secretly sits between you and the server
+you're talking to, intercepting (and possibly altering) everything in
+between — like an attacker on the same Wi-Fi reading traffic between a
+victim and a login page. Project 1's ARP spoofing + Wireshark FTP capture
+demonstrates this directly: FTP sends credentials in plain text, so anyone
+positioned in the middle of that connection can just read them off the wire.
+
+**Why Project 2's design defends against this:**
+- **HTTPS (`https_demo.py`)**: encrypts the password in transit, so even if
+  an attacker is in the middle, they only see scrambled ciphertext instead
+  of the real password.
+- **Key management practices applied here**: the pepper is kept in an
+  environment variable, never committed to GitHub or stored in `users.json`
+  alongside the hashes it protects; RSA private keys are never shared,
+  only public keys are; and Fernet keys in `encryption_examples.py` are
+  generated fresh rather than hardcoded, which is how a real system would
+  pull keys from a secrets manager instead of the source code.
+
+## Key findings
+- **Hashing vs encryption**: passwords are hashed (one-way, bcrypt) and never
+  encrypted or stored in plaintext. Encryption (Fernet/AES) is used only for
+  data that must be read back later, like the credit-card example.
+- **Salting defeats rainbow tables**: the same password produces a different
+  bcrypt hash every time it's hashed, because a random salt is baked in.
+  Plain SHA-256 produces the identical hash every time, making it directly
+  vulnerable to precomputed lookup tables.
+- **Pepper adds a second layer**: unlike salt (stored with the hash), the
+  pepper is a separate secret never stored in the database — so a leaked
+  `users.json` alone still isn't enough to brute-force real passwords.
+- **Rate limiting + MFA together stop brute force**: even if an attacker
+  guesses the password, they're locked out after 3 tries, and even if they
+  get past that, they still need the second factor (MFA code) to log in.
+- **HTTPS protects data in transit**: without it, a password typed into a
+  login form travels across the network in plain text and can be read by
+  anyone on the same network (this is what the Wireshark FTP capture in
+  Project 1 demonstrates — plaintext credentials sniffed off the wire).
+
+---
+
+## 📁 Expected Screenshots Folder
+
+```
+screenshots/
+├── p2-00a-venv-folder-structure.png
+├── p2-00b-installed-packages.png
+├── p2-00c-pycache-proof.png
+├── p2-01-pip-install.png
+├── p2-02-register-success.png
+├── p2-03-weak-password-rejected.png
+├── p2-04-users-json.png
+├── p2-05-authenticator-app-code.png
+├── p2-06-mfa-login-success.png
+├── p2-07-rate-limit-lockout.png
+├── p2-08-fernet-encrypt-decrypt.png
+├── p2-09-fernet-wrong-key-fails.png
+├── p2-10-rsa-keypair-encrypt.png
+├── p2-11-rsa-decrypt-success.png
+├── p2-12-rsa-wrong-key-fails.png
+├── p2-13-sha256-same-hash.png
+├── p2-14-bcrypt-different-hash.png
+├── p2-15-gui-main-window.png
+├── p2-16-gui-mfa-secret-dialog.png
+├── p2-17-gui-mfa-entry.png
+├── p2-18-gui-login-success.png
+├── p2-19-https-cert-warning.png
+├── p2-20-https-login-form.png
+├── p2-21-https-mfa-form.png
+├── p2-22-https-login-success.png
+└── p2-23-all-tests-passing.png
+```
