@@ -1,0 +1,5 @@
+bcrypt
+cryptography
+pyotp
+flask
+pyopenssl
